@@ -10,8 +10,10 @@ import SwiftUI
 struct ContentView: View {
     @State private var message = ""
     @State private var imageName = ""
-    @State private var imageNumber = 0
-    @State private var messageNumber = 0
+//    @State private var imageNumber = 0
+//    @State private var messageNumber = 0
+    @State private var lastMessageNumber = -1
+    @State private var lastImageNumber = -1
     var body: some View {
         VStack {
             Text(message)
@@ -38,9 +40,19 @@ struct ContentView: View {
                                     "You Are Great!",
                                     "You Are Fantastic",
                                     "Fabulous? That's You!"]
-                    //
-                    message = messages[Int.random(in: 0...messages.count-1)]
-                    imageName = "image\(Int.random(in: 0...9))"
+                    
+                    var messageNumber: Int
+                    var imageNumber: Int
+                    
+                    repeat {
+                        messageNumber = Int.random(in: 0...messages.count-1)
+                        imageNumber = Int.random(in: 0...9)
+                    } while messageNumber == lastMessageNumber || imageNumber == lastImageNumber
+                    message = messages[messageNumber]
+                    lastMessageNumber  = messageNumber
+                    
+                    imageName = "image\(imageNumber)"
+                    lastImageNumber = imageNumber
                 }
                 
             }
@@ -53,7 +65,6 @@ struct ContentView: View {
         }
     
     
-
 
 #Preview {
     ContentView()
